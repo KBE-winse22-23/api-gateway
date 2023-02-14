@@ -1,0 +1,65 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: PRODUCT-SERVICE
+          uri: http://product-microservice:9001
+          predicates:
+              - Path=/product/**
+              - Method=GET,POST,DELETE,PUT,OPTIONS
+
+        - id: CART-SERVICE
+          uri: http://cart-microservice:9002
+          predicates:
+              - Path=/cart/**
+              - Method=GET,POST,DELETE,PUT,OPTIONS
+
+        - id: WAREHOUSE-SERVICE
+          uri: http://warehouse-microservice:9003
+          predicates:
+              - Path=/warehouse/**
+              - Method=GET,POST,DELETE,PUT,OPTIONS
+
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: USER-SERVICE
+#                fallbackuri: forward:/userServiceFallBack
+#        - id: DEPARTMENT-SERVICE
+#          uri: lb://CART-SERVICE
+#          predicates:
+#            - Path=/cart/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: DEPARTMENT-SERVICE
+#                fallbackuri: forward:/departmentServiceFallBack
+
+#
+#hystrix:
+#  command:
+#    fallbackcmd:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 4000
+#
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://eureka-server:8761/eureka/
+  instance:
+    hostname: eureka-server

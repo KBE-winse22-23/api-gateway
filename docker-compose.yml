@@ -1,0 +1,23 @@
+version: "1.0"
+
+services:
+  app:
+    container_name: gateway-microservice
+    command: java -jar target/cloud-api-gateway-0.0.1-SNAPSHOT.jar
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bar-theke91/gateway-service-k8s
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./:/app/app
+    networks:
+      - internal
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+
+
+networks:
+  internal:
+    name: internal
