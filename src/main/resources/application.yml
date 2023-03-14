@@ -25,6 +25,17 @@ spring:
               - Path=/warehouse/**
               - Method=GET,POST,DELETE,PUT,OPTIONS
 
+        - id: PAYMENT-SERVICE
+          uri: http://payment-microservice:9004
+          predicates:
+              - Path=/payment/**
+              - Method=GET,POST,DELETE,PUT,OPTIONS
+
+        - id: ORDER-SERVICE
+          uri: http://order-microservice:9005
+          predicates:
+            - Path=/order/**
+            - Method=GET,POST,DELETE,PUT,OPTIONS
 #          filters:
 #            - name: CircuitBreaker
 #              args:
